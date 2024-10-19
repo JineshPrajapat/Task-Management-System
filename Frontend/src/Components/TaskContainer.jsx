@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
-import { images } from '../constants';
 import { FaPlus } from "react-icons/fa6";
 import { TaskCard } from './TaskCard';
 import { AddTask } from './Forms/AddTask';
 import { useParams } from 'react-router-dom';
-import { Draggable } from 'react-beautiful-dnd';
+import { useDispatch } from 'react-redux';
+import { setTasksByStatus, updateTaskInProject } from '../Reducer/Slice/ProjectSlice';
 
 export const TaskContainer = ({ status, tasks }) => {
     const [isTaskForm, setIsTaskForm] = useState(false);                   //handling popup for add task form
-    const closeTaskForm = () => setIsTaskForm(false);
     const params = useParams();
+    const dispatch = useDispatch()
+
     const { projectTitle } = params;
-    // console.log("todo tasks", tasks)
 
     return (
         <section id={status} className='bg-bgGrey rounded-2xl p-5'>
@@ -63,23 +63,30 @@ export const TaskContainer = ({ status, tasks }) => {
             </div> */}
 
             {/* ----------------------particular task card with drag & drop features ----------------- */}
-            <div className='flex flex-col gap-4'>
+            <div className='flex flex-col gap-4 droptarget'
+                onDrop={(e) => {
+                    e.preventDefault();
+                    const taskID = Number(e.dataTransfer.getData("taskID"));
+                    const projectTitle = e.dataTransfer.getData("projectTitle");
+                    console.log("third", status)
+                    
+                    dispatch(updateTaskInProject({ projectTitle, taskID, updatedTaskData: { status } }));
+                    dispatch(setTasksByStatus({ projectTitle }));
+
+                }}
+                onDragOver={(e) =>
+                    e.preventDefault()
+                }>
                 {tasks?.length > 0 ? tasks.map((task, index) => (
-                    <Draggable key={task.id} draggableId={`${task.id}`} index={index}>
-                        {(provided) => (
-                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                <TaskCard
-                                    taskID={task.id}
-                                    title={task.title}
-                                    description={task.description}
-                                    priority={task.priority}
-                                    comments={task.comments}
-                                    files={task.files}
-                                    status={status}
-                                />
-                            </div>
-                        )}
-                    </Draggable>
+                    <TaskCard
+                        taskID={task.id}
+                        title={task.title}
+                        description={task.description}
+                        priority={task.priority}
+                        comments={task.comments}
+                        files={task.files}
+                        status={status}
+                    />
                 )) :
                     <p>No tasks present</p>}
             </div>

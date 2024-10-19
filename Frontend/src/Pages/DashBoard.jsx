@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ProjectHeader } from '../Components/ProjectHeader';
 import { Project } from './Project';
 import { useParams } from 'react-router-dom';
@@ -14,7 +14,7 @@ export const DashBoard = () => {
   useEffect(() => {
       dispatch(setCurrentProject({projectTitle}))
       dispatch(setTasksByStatus({projectTitle}));
-  }, [projectTitle]);
+  }, [projectTitle, dispatch]);
 
   return (
     <>

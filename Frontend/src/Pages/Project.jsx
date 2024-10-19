@@ -3,15 +3,11 @@ import { images } from '../constants';
 import { IoIosArrowDown } from "react-icons/io";
 import { LuFilter } from "react-icons/lu";
 import { TaskContainer } from '../Components/TaskContainer';
-import { useDispatch, useSelector } from 'react-redux';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { updateTaskInProject } from '../Reducer/Slice/ProjectSlice';
+import { useSelector } from 'react-redux';
 import DateInputComponent from '../Components/DateInputComponent';
 
 export const Project = ({ project }) => {
     const tasks = useSelector((state) => state.project.tasks);
-    const dispatch = useDispatch()
-    console.log("tasks", tasks);
 
     const [selectedPriority, setSelectedPriority] = useState('All');
     const [selectedDate, setSelectedDate] = useState(null);
@@ -22,16 +18,16 @@ export const Project = ({ project }) => {
 
     const handleDateChange = (date) => {
         console.log("Type of date:", typeof date);
-        
+
         // If date is a string type
         if (typeof date === 'string') {
-            const dateObj = new Date(date); 
+            const dateObj = new Date(date);
             const formattedDate = dateObj.toISOString().split('T')[0];          // 'YYYY-MM-DD'            
-            setSelectedDate(formattedDate); 
-            
+            setSelectedDate(formattedDate);
+
         } else if (date instanceof Date) {
             const formattedDate = date.toISOString().split('T')[0];
-            setSelectedDate(formattedDate); 
+            setSelectedDate(formattedDate);
         }
         else {
             setSelectedDate(null);
@@ -40,55 +36,6 @@ export const Project = ({ project }) => {
         }
     };
 
-    const onDragEnd = (result) => {
-        console.log("result", result);
-        if (!result.destination) return; // Dropped outside the list
-
-        const { source, destination } = result;
-
-        // If the task is dropped in the same position
-        if (source.droppableId === destination.droppableId && source.index === destination.index) {
-            return;
-        }
-
-        try {
-            // Create a deep copy of the tasks object
-            const updatedTasks = { ...tasks };
-
-            // Get the source and destination task lists
-            const sourceTasks = updatedTasks[source.droppableId];
-            console.log("sourceTasks", sourceTasks);
-
-            // Check if sourceTasks exist and perform the operation
-            if (!sourceTasks || source.index < 0 || source.index >= sourceTasks.length) {
-                throw new Error("Invalid source index or tasks not found.");
-            }
-
-            const [movedTask] = sourceTasks.splice(source.index, 1); // Remove the task from source
-            console.log("movedTask", movedTask);
-
-            // Get or initialize the destination list
-            const destinationTasks = updatedTasks[destination.droppableId] || [];
-
-            // Check if destination index is valid
-            if (destination.index < 0 || destination.index > destinationTasks.length) {
-                throw new Error("Invalid destination index.");
-            }
-
-            // Add the task to the destination list
-            destinationTasks.splice(destination.index, 0, movedTask);
-
-            // Update the tasks object
-            updatedTasks[destination.droppableId] = destinationTasks;
-
-            // Dispatch action to update tasks in the Redux store
-            dispatch(updateTaskInProject({ projectTitle: project.title, updatedTasks }));
-
-        } catch (error) {
-            console.error("Error during drag-and-drop operation:", error);
-            // Optionally display an error message to the user or log it to an error tracking service
-        }
-    };
 
     const filteredTasks = useMemo(() => {
         let filtered = tasks;
@@ -118,7 +65,7 @@ export const Project = ({ project }) => {
 
     return (
         <div className='flex flex-col '>
-            <div className='flex flex-row justify-between items-center py-8'>
+            <div className='flex flex-col gap-4 md:gap-0 md:flex-row justify-between items-center py-8'>
                 {/* left filter section */}
                 <div className=' flex flex-row gap-2'>
                     {/* filter on basis of priority */}
@@ -148,7 +95,7 @@ export const Project = ({ project }) => {
                 {/* right option section */}
                 <div className='flex gap-2 items-center'>
                     <div className='flex gap-2 py-2 px-4 items-center text-base border border-grey rounded-md text-grey'>
-                        <img src={images.profileUser} />
+                        <img src={images.profileUser} alt='User Profile' />
                         <span className='whitespace-nowrap font-medium'>Share</span>
                     </div>
                     <hr className='w-7 h-0 transform rotate-90 m-0 border-grey ' />
@@ -164,44 +111,14 @@ export const Project = ({ project }) => {
                 </div>
             </div>
 
-            {/* -------------below code commented is to without drag & drop feature-------------- */}
 
-            {/* <section className='grid grid-cols-3 gap-4'>
+            {/* section in row */}
+
+            <section className=' flex flex-col md:grid md:grid-cols-3 gap-4'>
                 <TaskContainer status={"To Do"} tasks={filteredTasks?.todo} />
                 <TaskContainer status={"On Progress"} tasks={filteredTasks?.onProgress} />
                 <TaskContainer status={"Done"} tasks={filteredTasks?.done} />
-            </section> */}
-
-            {/* -------------below code with drag & drop feature-------------- */}
-            <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId="all-tasks" direction="horizontal">
-                    {(provided) => (
-                        <section
-                            className='grid grid-cols-3 gap-4'
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}
-                        >
-                            {["To Do", "On Progress", "Done"].map((status, index) => (
-                                <Droppable key={status} droppableId={status}>
-                                    {(provided) => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.droppableProps}
-                                        >
-                                            <TaskContainer
-                                                status={status}
-                                                tasks={filteredTasks[status === "To Do" ? "todo" : status === "On Progress" ? "onProgress" : "done"]}
-                                            />
-                                            {provided.placeholder}          {/* Needed for drag and drop */}
-                                        </div>
-                                    )}
-                                </Droppable>
-                            ))}
-                        </section>
-                    )}
-                </Droppable>
-            </DragDropContext>
-
+            </section>
         </div>
     )
 }

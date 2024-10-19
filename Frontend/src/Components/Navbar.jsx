@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { images } from '../constants';
-import { RxDashboard } from "react-icons/rx";
-import { IoSettingsOutline } from "react-icons/io5";
-import { LuUsers } from "react-icons/lu";
-import { BsChatSquareDots } from "react-icons/bs";
-import { GoTasklist } from "react-icons/go";
 import { CgAddR } from "react-icons/cg";
 import { BsLightbulbFill } from "react-icons/bs";
 import { useSelector } from 'react-redux';
+
+// import { RxDashboard } from "react-icons/rx";
+// import { IoSettingsOutline } from "react-icons/io5";
+// import { LuUsers } from "react-icons/lu";
+// import { BsChatSquareDots } from "react-icons/bs";
+// import { GoTasklist } from "react-icons/go";
 
 const Menus = [
     { name: "Home", icon: images.menu, path: "/" },
@@ -26,16 +27,14 @@ export const Navbar = () => {
     const [active, setActive] = useState(0);
     const location = useLocation();
 
-    console.log("Myprojects", MyProjects);
-
     const handleClick = (index) => {
         setActive(index);
     }
 
     return (
-        <nav className='sticky top-0 '>
+        <nav className=' sticky top-0  '>
             {/* Company name & logo */}
-            <div className='flex items-center justify-between p-4 py-4 border-b border-[#DBDBDB]'>
+            <div className='flex items-center justify-between p-4 py-4 border-b  border-[#DBDBDB]'>
                 <div className='flex flex-row gap-2 items-center'>
                     <div className='flex items-center w-6 h-6'>
                         <img src={images.logo} className='w-full h-full' alt="logo" />
@@ -61,7 +60,7 @@ export const Navbar = () => {
                                     onClick={() => handleClick(i)}
                                 >
                                     <span className={`text-xl duration-500 flex items-center ${location.pathname === menu.path && "text-grey"}`}>
-                                        <img src={menu.icon} className={`text-grey ${(location.pathname === menu.path) && "text-black  duration-700"}`} title={menu.name} />
+                                        <img src={menu.icon} alt={menu.name} className={`text-grey ${(location.pathname === menu.path) && "text-black  duration-700"}`} title={menu.name} />
                                     </span>
                                     <span className={`links-name text-base font-sans duration-500 ${!isToggle ? "hidden" : ""} ${(location.pathname === menu.path) && "text-black duration-700"}`}>
                                         {menu.name}
@@ -106,7 +105,7 @@ export const Navbar = () => {
                 </div>
 
                 {/* thoughts time  */}
-                <div className={`bg-[#F5F5F5] rounded-2xl relative mx-4 p-4  mt-20 ${!isToggle ? "hidden" : ""}`}>
+                <div className={`bg-[#F5F5F5] rounded-2xl relative mx-4 p-4 mt-24  ${!isToggle ? "hidden" : ""}`}>
                     <div className='flex flex-col gap-2 justify-center text-sm pt-8'>
                         <h4 className='text-center font-semibold'>Thoughts Time</h4>
                         <p className='text-center text-grey'>We don’t have any notice for you, till then you can share your thoughts with your peers.</p>

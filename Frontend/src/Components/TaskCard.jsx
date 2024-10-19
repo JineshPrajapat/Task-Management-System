@@ -16,7 +16,6 @@ export const TaskCard = ({ taskID, title, description, priority, comments, files
     const { projectTitle } = params;
 
     const handleChangeStatus = (newStatus) => {
-        // console.log("newStatus".newStatus, status);
         setTaskStatus(newStatus);
         dispatch(updateTaskInProject({ projectTitle, taskID, updatedTaskData: { status: newStatus } }));
         dispatch(setTasksByStatus({ projectTitle }));
@@ -24,7 +23,7 @@ export const TaskCard = ({ taskID, title, description, priority, comments, files
 
     const handleChangePriority = (newPriority) => {
         setTaskPriority(newPriority);
-        dispatch(updateTaskInProject({ projectTitle, taskID, updatedTaskData: {priority : newPriority} }));
+        dispatch(updateTaskInProject({ projectTitle, taskID, updatedTaskData: { priority: newPriority } }));
         dispatch(setTasksByStatus({ projectTitle }));
     }
 
@@ -35,7 +34,19 @@ export const TaskCard = ({ taskID, title, description, priority, comments, files
 
 
     return (
-        <div className='p-5 bg-white flex flex-col gap-2 rounded-2xl'>
+        <div
+            className='p-5 bg-white flex flex-col gap-2 rounded-2xl'
+            draggable={true}
+            onDragStart={(e) => {
+                e.dataTransfer.setData("taskID", taskID);
+                e.dataTransfer.setData("projectTitle", projectTitle);
+                console.log("first")
+            }}
+
+            onDragEnd={(e)=>{
+                console.log("sec")
+            }}
+        >
             <div className='flex flex-row justify-between items-center'>
                 <div className={`p-1 px-2 text-xs font-medium rounded-[4px] bg-opacity-20 ${priority === 'Low' ? 'bg-[#DFA874] text-[#D58D49]' : priority === 'Medium' ? 'bg-amber-400 text-amber-600' : 'bg-red-300 text-[#D8727D]'} text-xs`}>
                     {priority}
@@ -51,8 +62,8 @@ export const TaskCard = ({ taskID, title, description, priority, comments, files
                     {/* Show the TaskDropdown when the triple dot is clicked */}
                     {isDropdownOpen && (
                         <TaskDropdown
-                            isOpen = {isDropdownOpen}
-                            onClose = {()=> setIsDropdownOpen(false)}
+                            isOpen={isDropdownOpen}
+                            onClose={() => setIsDropdownOpen(false)}
                             status={status}
                             priority={priority}
                             onChangeStatus={handleChangeStatus}

@@ -42,10 +42,11 @@ const projectSlice = createSlice({
         },
 
         setCurrentProject(state, action) {
-            console.log("function invoked");
             const { projectTitle } = action.payload;
             state.currentProject = state.projects.find((project) => project.title === projectTitle) || null;
         },
+
+        
         // handling task for particular projects
 
         addTaskToProject(state, action) {
@@ -77,7 +78,7 @@ const projectSlice = createSlice({
                 if (project.title === projectTitle) {
                     return {
                         ...project,
-                        tasks: project.tasks.map(task =>
+                        tasks: project.tasks.map((task) =>
                             task.id === taskID ? { ...task, ...updatedTaskData } : task
                         )
                     };
@@ -86,7 +87,7 @@ const projectSlice = createSlice({
             });
             setProjects(state.projects);
         },
-
+        
         setTasksByStatus(state, action) {
             const { projectTitle } = action.payload;
             const project = state.projects.find(project => project.title === projectTitle);

@@ -7,7 +7,7 @@
 3. [Assumptions](#assumptions)
 4. [Redux State Management](#redux-state-management)
 5. [Installation and Setup](#installation-and-setup)
-6. [How to Use the Platform](#how-to-Use-the-Platform)
+6. [How to Use the Platform](#how-to-use-the-platform)
 7. [Contact](#contact)
 
 ---
@@ -97,7 +97,7 @@ Follow these steps to install and run the platform locally:
 1. **Clone the Repository**:
    Clone the project repository to your local machine:
    ```bash
-   git clone https://github.com/yourusername/project-task-manager.git
+   git clone https://github.com/JineshPrajapat/Task-Management-System.git
    
 2. **Install Dependencies:**
  

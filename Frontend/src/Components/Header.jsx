@@ -9,7 +9,7 @@ import { images } from '../constants';
 
 export const Header = () => {
     return (
-        <header className="flex justify-between items-center border-b border-[#DBDBDB]] p-2 px-8 bg-white sticky top-0 ">
+        <header className="flex justify-between items-center border-b border-[#DBDBDB]] p-2 px-8 bg-white sticky top-0 z-50 ">
             {/* Search bar */}
             <div className="flex items-center w-full max-w-md bg-gray-100 rounded-lg px-4 py-2">
                 <RiSearchLine className="text-grey mr-2" />

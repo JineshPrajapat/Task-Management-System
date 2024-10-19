@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef} from 'react';
 import useClickOutside from '../hooks/useClickOutside';
 
 export const TaskDropdown = ({ isOpen, onClose, status, priority, onChangeStatus, onChangePriority, onDelete }) => {
@@ -8,7 +8,7 @@ export const TaskDropdown = ({ isOpen, onClose, status, priority, onChangeStatus
     return (
         <div
         ref={modalRef}
-            className="absolute right-0 mt-2 z-50  px-4 rounded-md shadow-lg bg-zinc-50 ring-1 ring-black ring-opacity-5"
+            className="absolute right-0 mt-2 z-50  px-4 rounded-md shadow-lg bg-zinc-50 ring-1 ring-black ring-opacity-5 "
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="menu-button"

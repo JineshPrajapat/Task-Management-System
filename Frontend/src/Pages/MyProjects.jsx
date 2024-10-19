@@ -9,7 +9,6 @@ export const MyProjects = () => {
     const dispatch = useDispatch();
 
     const [isProjectForm, setIsProjectForm] = useState(false);              // handling popup of project form for creation of projects
-    const closeProjectForm = () => isProjectForm(false);
 
     // Function to delete a project by id
     const handleDelete = (id) => {

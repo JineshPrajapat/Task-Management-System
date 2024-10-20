@@ -46,7 +46,6 @@ const projectSlice = createSlice({
             state.currentProject = state.projects.find((project) => project.title === projectTitle) || null;
         },
 
-        
         // handling task for particular projects
 
         addTaskToProject(state, action) {

@@ -20,7 +20,7 @@ import users from "../assests/icons/users.png";
 import taskUsers from "../assests/icons/taskUsers.png"
 import jinesh from "../assests/jinesh.png";
 
-export default {
+const images = {
     logo,
     leftArrow,
     addSquare,
@@ -43,3 +43,5 @@ export default {
     taskUsers,
     jinesh
 }
+
+export default images;
